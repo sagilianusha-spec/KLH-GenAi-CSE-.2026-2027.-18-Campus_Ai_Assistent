@@ -1,0 +1,79 @@
+ASSESSMENT 1: BPE AND WORDPIECE
+Training corpus: {'low': 5, 'lower': 2, 'newest': 3, 'wildest': 6}
+
+Initial character-level tokens:
+low      -> l | o | w
+lower    -> l | o | w | e | r
+newest   -> n | e | w | e | s | t
+wildest  -> w | i | l | d | e | s | t
+
+Initial adjacent-pair frequencies:
+('d', 'e'): 6
+('e', 'r'): 2
+('e', 's'): 9
+('e', 'w'): 3
+('i', 'l'): 6
+('l', 'd'): 6
+('l', 'o'): 7
+('n', 'e'): 3
+('o', 'w'): 7
+('s', 't'): 9
+('w', 'e'): 5
+('w', 'i'): 6
+
+============================================================
+BPE TRAINING
+============================================================
+Merge steps:
+ 1. (e, s) -> es [pair frequency = 9]
+ 2. (es, t) -> est [pair frequency = 9]
+ 3. (l, o) -> lo [pair frequency = 7]
+ 4. (lo, w) -> low [pair frequency = 7]
+ 5. (d, est) -> dest [pair frequency = 6]
+ 6. (i, l) -> il [pair frequency = 6]
+ 7. (il, dest) -> ildest [pair frequency = 6]
+ 8. (w, ildest) -> wildest [pair frequency = 6]
+ 9. (e, w) -> ew [pair frequency = 3]
+10. (ew, est) -> ewest [pair frequency = 3]
+11. (n, ewest) -> newest [pair frequency = 3]
+12. (e, r) -> er [pair frequency = 2]
+13. (low, er) -> lower [pair frequency = 2]
+
+Final segmentation:
+low      -> low
+lower    -> lower
+newest   -> newest
+wildest  -> wildest
+
+Final vocabulary: ['low', 'lower', 'newest', 'wildest']
+
+============================================================
+WordPiece TRAINING
+============================================================
+Merge steps:
+ 1. (s, t) -> st [score = 0.111111]
+ 2. (i, l) -> il [score = 0.076923]
+ 3. (il, d) -> ild [score = 0.166667]
+ 4. (l, o) -> lo [score = 0.142857]
+ 5. (e, r) -> er [score = 0.071429]
+ 6. (e, st) -> est [score = 0.083333]
+ 7. (n, e) -> ne [score = 0.333333]
+ 8. (ild, est) -> ildest [score = 0.111111]
+ 9. (lo, w) -> low [score = 0.062500]
+10. (low, er) -> lower [score = 0.142857]
+11. (ne, w) -> new [score = 0.111111]
+12. (new, est) -> newest [score = 0.333333]
+13. (w, ildest) -> wildest [score = 0.166667]
+
+Final segmentation:
+low      -> low
+lower    -> lower
+newest   -> newest
+wildest  -> wildest
+
+Final vocabulary: ['low', 'lower', 'newest', 'wildest']
+
+COMPARISON
+BPE selects the pair with the highest raw pair frequency.
+WordPiece selects the pair with the highest normalized score.
+Therefore, their merge order and final segmentation can differ.
