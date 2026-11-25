@@ -1,4 +1,0 @@
-google-genai
-pymongo
-pandas
-matplotlib
